@@ -5,7 +5,7 @@ namespace CryptoApi.Models
     public class Sentiment
     {
         [Key]
-        public string id { get; set; } = null!;
+        public string id { get; set; }
         public string Symbol { get; set; }
         public DateTime Date { get; set; }
         public string? PositiveReddit { get; set; }

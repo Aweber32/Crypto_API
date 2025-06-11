@@ -5,9 +5,9 @@ namespace CryptoApi.Models
     public class InvestorGrade
     {
         [Key]
-        public string id { get; set; } = null!;
-        public string Symbol { get; set; } = null!;
-        public DateTime Date { get; set; } = null!;
+        public string id { get; set; }
+        public string Symbol { get; set; }
+        public DateTime Date { get; set; }
         public string? TokenName { get; set; } 
         public string? TradingSignal { get; set; } 
         public string? TokenTrend { get; set; } 

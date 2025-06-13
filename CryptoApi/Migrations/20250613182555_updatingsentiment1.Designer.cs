@@ -4,6 +4,7 @@ using CryptoApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CryptoApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250613182555_updatingsentiment1")]
+    partial class updatingsentiment1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,14 +127,14 @@ namespace CryptoApi.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<double?>("NegativeReddit")
-                        .HasColumnType("float");
+                    b.Property<float?>("NegativeReddit")
+                        .HasColumnType("real");
 
-                    b.Property<double?>("NeutralReddit")
-                        .HasColumnType("float");
+                    b.Property<float?>("NeutralReddit")
+                        .HasColumnType("real");
 
-                    b.Property<double?>("PositiveReddit")
-                        .HasColumnType("float");
+                    b.Property<float?>("PositiveReddit")
+                        .HasColumnType("real");
 
                     b.Property<int?>("PostCountReddit")
                         .HasColumnType("int");

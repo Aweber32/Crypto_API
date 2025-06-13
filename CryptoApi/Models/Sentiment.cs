@@ -8,9 +8,9 @@ namespace CryptoApi.Models
         public string id { get; set; }
         public string Symbol { get; set; }
         public DateTime Date { get; set; }
-        public string? PositiveReddit { get; set; }
-        public string? NeutralReddit { get; set; }
-        public string? NegativeReddit { get; set; }
-        public string? PostCountReddit { get; set; }
+        public decimal? PositiveReddit { get; set; }
+        public decimal? NeutralReddit { get; set; }
+        public decimal? NegativeReddit { get; set; }
+        public int? PostCountReddit { get; set; }
     }
 }

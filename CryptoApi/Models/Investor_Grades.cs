@@ -9,14 +9,14 @@ namespace CryptoApi.Models
         public string Symbol { get; set; }
         public DateTime Date { get; set; }
         public string? TokenName { get; set; } 
-        public string? TradingSignal { get; set; } 
-        public string? TokenTrend { get; set; } 
-        public decimal? TradingSignalsReturns { get; set; }
-        public decimal? HoldingReturns { get; set; }
-        public string? TMTraderGrade { get; set; }
-        public string? TMInvestorGrade { get; set; }
-        public string? TAGrade { get; set; }
-        public string? QuantGrade { get; set; }
-        public decimal? TMTraderGrade24hPctChange { get; set; }
+        public int? TradingSignal { get; set; } 
+        public int? TokenTrend { get; set; } 
+        public double? TradingSignalsReturns { get; set; }
+        public double? HoldingReturns { get; set; }
+        public double? TMTraderGrade { get; set; }
+        public int? TMInvestorGrade { get; set; }
+        public double? TAGrade { get; set; }
+        public double? QuantGrade { get; set; }
+        public double? TMTraderGrade24hPctChange { get; set; }
     }
 }

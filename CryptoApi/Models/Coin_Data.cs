@@ -7,7 +7,8 @@ namespace CryptoApi.Models
         [Key]
         public string id { get; set; }
         public string Symbol { get; set; }
-        public DateTime Date { get; set; } 
+        public DateTime Date { get; set; }
+        public double? FearandGreed { get; set; } 
         public string? TokenName { get; set; }
         public double? Price { get; set; }
         public double? Volume24h { get; set; }

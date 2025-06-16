@@ -14,7 +14,7 @@ namespace CryptoApi.Models
         public double? TradingSignalsReturns { get; set; }
         public double? HoldingReturns { get; set; }
         public double? TMTraderGrade { get; set; }
-        public int? TMInvestorGrade { get; set; }
+        public double? TMInvestorGrade { get; set; }
         public double? TAGrade { get; set; }
         public double? QuantGrade { get; set; }
         public double? TMTraderGrade24hPctChange { get; set; }

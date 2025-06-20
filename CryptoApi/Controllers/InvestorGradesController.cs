@@ -42,5 +42,19 @@ namespace CryptoApi.Controllers
 
             return CreatedAtAction(nameof(GetLatestInvestorGrades), new { id = investorGrade.id }, investorGrade);
         }
+        // POST: api/InvestorGrade/bulk
+        [HttpPost("bulk")]
+        public async Task<IActionResult> PostBulk([FromBody] List<InvestorGrade> grades)
+        {
+            if (grades == null || grades.Count == 0)
+            {
+                return BadRequest("No investor grade data provided.");
+            }
+
+            await _context.InvestorGrades.AddRangeAsync(grades);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { inserted = grades.Count });
+        }
     }
 }

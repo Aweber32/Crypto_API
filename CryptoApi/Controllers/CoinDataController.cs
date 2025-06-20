@@ -42,5 +42,18 @@ namespace CryptoApi.Controllers
 
             return CreatedAtAction(nameof(GetLatestCoinData), new { id = coinData.id }, coinData);
         }
+        [HttpPost("bulk")]
+        public async Task<IActionResult> PostBulk([FromBody] List<CoinData> coins)
+        {
+            if (coins == null || coins.Count == 0)
+            {
+                return BadRequest("No coin data provided.");
+            }
+
+            await _context.CoinDatas.AddRangeAsync(coins);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { inserted = coins.Count });
+        }
     }
 }

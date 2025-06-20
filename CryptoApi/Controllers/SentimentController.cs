@@ -42,5 +42,19 @@ namespace CryptoApi.Controllers
 
             return CreatedAtAction(nameof(GetLatestSentiments), new { id = sentiment.id }, sentiment);
         }
+        // POST: api/Sentiment/bulk
+        [HttpPost("bulk")]
+        public async Task<IActionResult> PostBulk([FromBody] List<Sentiment> sentiments)
+        {
+            if (sentiments == null || sentiments.Count == 0)
+            {
+                return BadRequest("No sentiment data provided.");
+            }
+
+            await _context.Sentiments.AddRangeAsync(sentiments);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { inserted = sentiments.Count });
+        }
     }
 }

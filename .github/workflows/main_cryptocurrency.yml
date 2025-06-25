@@ -10,30 +10,49 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: windows-latest
     permissions:
-      contents: read
-      id-token: write
+      contents: read #This is required for actions/checkout
+
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.x'
 
-      - name: Build project
+      - name: Build with dotnet
         run: dotnet build --configuration Release
 
-      - name: Publish project
-        run: dotnet publish -c Release -o ./myapp
+      - name: dotnet publish
+        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
-      - name: Zip publish folder
-        run: Compress-Archive -Path ./myapp/* -DestinationPath ./myapp.zip
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
 
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-app
+      
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -47,4 +66,4 @@ jobs:
         with:
           app-name: 'cryptocurrency'
           slot-name: 'Production'
-          package: ./myapp.zip
+          package: .

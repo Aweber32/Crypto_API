@@ -17,14 +17,16 @@ namespace CryptoApi.Controllers
         }
 
         // GET: api/CoinData
+        // GET: api/CoinData?lookbackHours=INSERT HOURS HERE
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CoinData>>> GetLatestCoinData()
+        public async Task<ActionResult<IEnumerable<CoinData>>> GetCoinData([FromQuery] int? lookbackHours)
         {
-            var data = await _context.CoinDatas
-                .OrderByDescending(c => c.Date)
-                .Take(24)
-                .ToListAsync();
+            var query = _context.CoinDatas.AsQueryable();
 
+            var cutoff = DateTime.UtcNow.AddHours(-(lookbackHours ?? 24));
+            query = query.Where(x => x.Date >= cutoff);
+
+            var data = await query.ToListAsync();
             return Ok(data);
         }
 
@@ -40,7 +42,7 @@ namespace CryptoApi.Controllers
             _context.CoinDatas.Add(coinData);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetLatestCoinData), new { id = coinData.id }, coinData);
+            return Ok(coinData);
         }
         [HttpPost("bulk")]
         public async Task<IActionResult> PostBulk([FromBody] List<CoinData> coins)

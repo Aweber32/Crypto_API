@@ -17,15 +17,17 @@ namespace CryptoApi.Controllers
         }
 
         // GET: api/Sentiment
+        // GET: api/Sentiment?lookbackHours=INSERT HOURS HERE
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Sentiment>>> GetLatestSentiments()
+        public async Task<ActionResult<IEnumerable<Sentiment>>> GetSentiments([FromQuery] int? lookbackHours)
         {
-            var sentiments = await _context.Sentiments
-                .OrderByDescending(s => s.Date)
-                .Take(24)
-                .ToListAsync();
+            var query = _context.Sentiments.AsQueryable();
 
-            return Ok(sentiments);
+            var cutoff = DateTime.UtcNow.AddHours(-(lookbackHours ?? 24));
+            query = query.Where(x => x.Date >= cutoff);
+
+            var data = await query.ToListAsync();
+            return Ok(data);
         }
 
         // POST: api/Sentiment
@@ -40,7 +42,7 @@ namespace CryptoApi.Controllers
             _context.Sentiments.Add(sentiment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetLatestSentiments), new { id = sentiment.id }, sentiment);
+            return Ok(sentiment);
         }
         // POST: api/Sentiment/bulk
         [HttpPost("bulk")]

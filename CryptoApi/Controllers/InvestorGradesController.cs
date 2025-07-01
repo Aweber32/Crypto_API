@@ -17,15 +17,17 @@ namespace CryptoApi.Controllers
         }
 
         // GET: api/InvestorGrade
+        // GET: api/InvestorGrade?lookbackHours=INSERT HOURS HERE
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<InvestorGrade>>> GetLatestInvestorGrades()
+        public async Task<ActionResult<IEnumerable<InvestorGrade>>> GetInvestorGrades([FromQuery] int? lookbackHours)
         {
-            var grades = await _context.InvestorGrades
-                .OrderByDescending(g => g.Date)
-                .Take(24)
-                .ToListAsync();
+            var query = _context.InvestorGrades.AsQueryable();
 
-            return Ok(grades);
+            var cutoff = DateTime.UtcNow.AddHours(-(lookbackHours ?? 24));
+            query = query.Where(x => x.Date >= cutoff);
+
+            var data = await query.ToListAsync();
+            return Ok(data);
         }
 
         // POST: api/InvestorGrade
@@ -40,7 +42,7 @@ namespace CryptoApi.Controllers
             _context.InvestorGrades.Add(investorGrade);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetLatestInvestorGrades), new { id = investorGrade.id }, investorGrade);
+            return Ok(investorGrade);
         }
         // POST: api/InvestorGrade/bulk
         [HttpPost("bulk")]

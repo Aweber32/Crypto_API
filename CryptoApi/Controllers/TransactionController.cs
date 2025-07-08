@@ -23,7 +23,7 @@ namespace CryptoApi.Controllers
         {
             var query = _context.Transactions.AsQueryable();
 
-            var cutoff = DateTime.UtcNow.AddHours(-(lookbackHours ?? 24));
+            var cutoff = DateTime.UtcNow.AddHours(-(lookbackHours ?? 4380));
             query = query.Where(x => x.Date >= cutoff);
 
             var data = await query.ToListAsync();

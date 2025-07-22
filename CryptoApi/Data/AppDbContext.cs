@@ -10,7 +10,7 @@ namespace CryptoApi.Data
         public DbSet<CoinData> CoinDatas { get; set; }
         public DbSet<InvestorGrade> InvestorGrades { get; set; }
         public DbSet<Sentiment> Sentiments { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<FeatureEngineering> FeatureEngineerings { get; set; }
     }
     
 }

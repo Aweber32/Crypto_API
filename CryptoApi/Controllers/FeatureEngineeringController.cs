@@ -7,21 +7,21 @@ namespace CryptoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TransactionController : ControllerBase
+    public class FeatureEngineeringController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public TransactionController(AppDbContext context)
+        public FeatureEngineeringController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Transaction
-        // GET: api/Transaction?lookbackHours=INSERT HOURS HERE
+        // GET: api/FeatureEngineering
+        // GET: api/FeatureEngineering?lookbackHours={insert here}
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactions([FromQuery] int? lookbackHours)
+        public async Task<ActionResult<IEnumerable<FeatureEngineering>>> GetTransactions([FromQuery] int? lookbackHours)
         {
-            var query = _context.Transactions.AsQueryable();
+            var query = _context.FeatureEngineerings.AsQueryable();
 
             var cutoff = DateTime.UtcNow.AddHours(-(lookbackHours ?? 4380));
             query = query.Where(x => x.Date >= cutoff);
@@ -32,17 +32,17 @@ namespace CryptoApi.Controllers
 
         // POST: api/Transaction
         [HttpPost]
-        public async Task<ActionResult<Transaction>> PostTransaction(Transaction transaction)
+        public async Task<ActionResult<FeatureEngineering>> PostTransaction(FeatureEngineering featureEngineering)
         {
-            if (await _context.Transactions.AnyAsync(c => c.id == transaction.id))
+            if (await _context.FeatureEngineerings.AnyAsync(c => c.id == featureEngineering.id))
             {
                 return Conflict("A record with this ID already exists.");
             }
 
-            _context.Transactions.Add(transaction);
+            _context.FeatureEngineerings.Add(featureEngineering);
             await _context.SaveChangesAsync();
 
-            return Ok(transaction);
+            return Ok(featureEngineering);
         }
     }
 }

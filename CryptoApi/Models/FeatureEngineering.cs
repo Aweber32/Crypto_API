@@ -27,6 +27,22 @@ namespace CryptoApi.Models
         public double? Sentiment_Rolling_Mean_3h { get; set; }
         public double? Price_Momentum_1h { get; set; }
         public double? Sentiment_Momentum_1h { get; set; }
+         // Advanced Trading Strategy Features
+        public double? MomentumScore { get; set; }
+        public bool? MomentumConfirmed { get; set; }
+
+        public bool? BollingerBandSqueeze { get; set; }
+        public bool? BollingerBandBreakout { get; set; }
+
+        public bool? MeanReversionLongSignal { get; set; }
+        public bool? MeanReversionShortSignal { get; set; }
+        public double? Price_Deviation_Pct { get; set; }
+
+        public double? Volume24h_Rolling_Mean_24h { get; set; }
+        public double? Volume_Spike_Ratio { get; set; }
+        public bool? VolumeSpikeSignal { get; set; }
+
+        public bool? MultiFactorConfluenceSignal { get; set; }
 
     }
 }
